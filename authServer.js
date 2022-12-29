@@ -106,7 +106,8 @@ app.post("/api/login", async (req, res) => {
             const refreshToken = jwt.sign({ email: email }, process.env.REFRESH_TOKEN_SECRET)
             await User.updateOne({ email: email }, { refreshToken: refreshToken });
             res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-            res.json({ accessToken })
+            console.log(res.cookie.jwt);
+            res.json({ message: "Success", accessToken });
         }
         else {
             res.sendStatus(401)
