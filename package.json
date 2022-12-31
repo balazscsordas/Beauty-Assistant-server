@@ -10,12 +10,12 @@
     "nodemon": "^2.0.20"
   },
   "scripts": {
-    "start:backend": "nodemon server.js",
-    "start:backend2": "nodemon authServer.js"
+    "start:backend": "nodemon server.js"
   },
   "name": "server",
   "version": "1.0.0",
-  "main": "authServer.js",
+  "main": "server.js",
+  "type": "module",
   "author": "",
   "license": "ISC",
   "description": ""
