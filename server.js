@@ -31,10 +31,6 @@ app.use(cookieParser());
 
 const saltRounds = 10;
 
-app.listen(process.env.PORT, () => {
-    console.log("Server is running on port " + process.env.PORT);
-})
-
 /* DATABASE CONNECTION */
 const connectDB = async () => {
   try {
@@ -46,6 +42,10 @@ const connectDB = async () => {
   }
 }
 connectDB();
+
+app.listen(process.env.PORT, () => {
+  console.log("Server is running on port " + process.env.PORT);
+})
 
 /* ROUTES */
 app.use("/auth", authRoutes);

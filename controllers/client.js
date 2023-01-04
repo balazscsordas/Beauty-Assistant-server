@@ -69,7 +69,6 @@ export const modifyClientData = async (req, res) => {
 }
 
 /* DELETE CLIENT */
-
 export const deleteClient = async (req, res) => {
     try {
         const clientId = req.body.clientId;
