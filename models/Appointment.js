@@ -6,23 +6,33 @@ const appointmentSchema = new mongoose.Schema({
         required: true,
         min: 2
     },
+    clientName: {
+        type: String,
+        required: true,
+        min: 1
+    },
     serviceId: {
         type: String,
         required: true,
         min: 2
+    },
+    serviceName: {
+        type: String,
+        required: true,
+        min: 1
+    },
+    serviceTime: {
+        type: Number,
+        required: true,
+        min: 1
     },
     date: {
         type: Date,
         required: true,
         min: 2
     },
-    hour: {
-        type: Number,
-        required: true,
-        min: 1
-    },
-    minute: {
-        type: Number,
+    time: {
+        type: String,
         required: true,
         min: 1
     },
