@@ -1,11 +1,14 @@
 import Client from "../models/Client.js";
+import User from "../models/User.js";
 
 /* GET CLIENT LIST */
 export const getClientList = async (req, res) => {
     try {
         const adminId = req._id;
         const foundClients = await Client.find({ adminId: adminId }, 'name age');
-        res.status(200).json({ foundClients });
+        const clientOptionNames = await User.findOne({ _id: adminId }, 'clientOptionNames');
+        const clientOptionNamesWithoutId = clientOptionNames.clientOptionNames;
+        res.status(200).json({ foundClients, clientOptionNamesWithoutId });
       }
       catch (err) {
         res.status(500).json({ error: err.message });
@@ -26,6 +29,21 @@ export const getClientDetails = async (req, res) => {
       }
 }
 
+/* ADD OPTION NAMES */
+export const addOptionNames = async (req, res) => {
+  try {
+      const newClientOptionNames = req.body.newClientOptionNames;
+      const adminId = req._id;
+      const updatedUser = await User.updateOne({ _id: adminId }, {
+        clientOptionNames: newClientOptionNames
+      });
+      res.status(201).json({ newClientOptionNames, message: "Option names have been changed" });
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+}
+
 /* ADD NEW CLIENT */
 export const addNewClient = async (req, res) => {
     try {
@@ -34,17 +52,20 @@ export const addNewClient = async (req, res) => {
         const client = new Client({
           name: clientData.name,
           age: clientData.age,
+          email: clientData.email,
           mobileNumber: clientData.mobileNumber,
-          allergies: clientData.allergies,
-          skinType: clientData.skinType,
-          usedCreams: clientData.usedCreams,
-          baseInformation: clientData.baseInformation,
+          option1Content: clientData.option1Content,
+          option2Content: clientData.option2Content,
+          option3Content: clientData.option3Content,
+          option4Content: clientData.option4Content,
+          option5Content: clientData.option5Content,
           adminId,
         })
         const savedClient = await client.save();
         res.status(201).json({ message: "Client has been added" });
       }
       catch (err) {
+        console.log(err.message);
         res.status(500).json({ error: err.message });
       }
 }

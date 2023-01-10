@@ -11,19 +11,33 @@ const clientSchema = new mongoose.Schema({
         required: true,
         min: 1,
     },
+    email: {
+        type: String,
+        required: true,
+        min: 1,
+    },
     mobileNumber: {
         type: String,
         required: true,
         min: 1,
     },
-    allergies: String,
-    skinType: String,
-    usedCreams: String,
-    baseInformation: String,
+    option1Content: {
+        type: String,
+    },
+    option2Content: {
+        type: String,
+    },
+    option3Content: {
+        type: String,
+    },
+    option4Content: {
+        type: String,
+    },
+    option5Content: {
+        type: String,
+    },
     adminId: {
         type: String,
-        required: true,
-        min: 1,
     },
   })
   

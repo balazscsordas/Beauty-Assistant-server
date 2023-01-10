@@ -28,10 +28,13 @@ export const addNewAppointment = async (req, res) => {
             serviceTime: foundService.time,
             date: appointmentData.date,
             time: appointmentData.time,
-            adminId
+            adminId,
+            discount: appointmentData.discount,
+            commentForClient: appointmentData.commentForClient,
+            commentForAdmin: appointmentData.commentForAdmin,
         })
         const savedAppointment = await appointment.save();
-        res.status(200).json({ message: "Appointment has been added" });
+        res.status(200).json({ savedAppointment, message: "Appointment has been added" });
     } catch(err) {
         res.status(500).json({ error: err.message });
     }

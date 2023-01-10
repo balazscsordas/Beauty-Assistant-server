@@ -41,6 +41,18 @@ const appointmentSchema = new mongoose.Schema({
         required: true,
         min: 1,
     },
+    discount: {
+        type: String,
+        min: 1,
+    },
+    commentForClient: {
+        type: String,
+        min: 1,
+    },
+    commentForAdmin: {
+        type: String,
+        min: 1,
+    },
 })
 
 const Appointment = mongoose.model('Appointment', appointmentSchema);
