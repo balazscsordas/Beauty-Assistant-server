@@ -1,13 +1,21 @@
 import Appointment from "../models/Appointment.js";
 import Service from "../models/Service.js";
 import Client from "../models/Client.js";
+import { checkIfItsOnThisWeek } from "./utils.js";
 
 /* GET APPOINTMENT LIST */
 export const getAppointmentList = async (req, res) => {
     try {
+        const currentWeek = req.query.currentWeek;
         const adminId = req._id;
         const foundAppointments = await Appointment.find({ adminId: adminId })
-        res.status(200).json({ foundAppointments });
+        const currentWeekAppointments = [];
+        foundAppointments.map(appointment => {
+            if (checkIfItsOnThisWeek(appointment.date, currentWeek) === true) {
+                currentWeekAppointments.push(appointment);
+            }
+        })
+        res.status(200).json({ currentWeekAppointments });
     } catch(err) {
         res.status(500).json({ error: err.message });
     }
@@ -18,6 +26,7 @@ export const addNewAppointment = async (req, res) => {
     try {
         const adminId = req._id;
         const appointmentData = req.body.data;
+        console.log(appointmentData);
         const foundService = await Service.findOne({ _id: appointmentData.serviceId });
         const foundClient = await Client.findOne({ _id: appointmentData.clientId });
         const appointment = new Appointment({
@@ -60,8 +69,9 @@ export const modifyAppointmentData = async (req, res) => {
 export const deleteAppointment = async (req, res) => {
     try {
         const appointmentId = req.body.appointmentId;
+        const currentWeek = req.body.currentWeek;
         const deletedAppointment = await Appointment.deleteOne({ _id: appointmentId });
-        res.status(200).json({ message: "Appointment has been deleted" });
+        res.status(200).json({ deletedAppointment, message: "Appointment has been deleted" });
     } catch(err) {
         res.status(500).json({ error: err.message });
     }
