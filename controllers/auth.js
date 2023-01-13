@@ -30,17 +30,18 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) return res.status(401).json({ message: "User does not exist" });
-        const authData = {
-            _id: foundUser._id,
-            firstName: foundUser.firstName,
-        }
         const isMatch = await bcrypt.compare(password, foundUser.password);
         if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
         const accessToken = jwt.sign({ _id: foundUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
         const refreshToken = jwt.sign({ _id: foundUser._id }, process.env.REFRESH_TOKEN_SECRET)
         await User.updateOne({ _id: foundUser._id }, { refreshToken: refreshToken });
+        const authData = {
+            _id: foundUser._id,
+            firstName: foundUser.firstName,
+            accessToken: accessToken,
+        }
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.status(200).json({ authData, message: "Success", accessToken });
+        res.status(200).json({ authData, message: "Success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }
