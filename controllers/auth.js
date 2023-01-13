@@ -6,12 +6,13 @@ import User from "../models/User.js";
 export const register = async (req, res) => {
     try {
         const { firstName, email, password } = req.body.registrationData;
+        const capitalizedFirstName = firstName.charAt(0).toUpperCase() + string.slice(1);
         const foundUser = await User.findOne({ email: email });
         if(foundUser) return res.status(409).json({ message: "An account is already registered with your email, please log in." });
         const salt = await bcrypt.genSalt();
         const hashedPassword = await bcrypt.hash(password, salt);
         const newUser = new User({
-            firstName,
+            firstName: capitalizedFirstName,
             email,
             password: hashedPassword,
             refreshToken: "",   
@@ -29,13 +30,17 @@ export const login = async (req, res) => {
         const { email, password } = req.body;
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) return res.status(401).json({ message: "User does not exist" });
+        const authData = {
+            _id: foundUser._id,
+            firstName: foundUser.firstName,
+        }
         const isMatch = await bcrypt.compare(password, foundUser.password);
-        if (!isMatch) return res.status(401).json({ message: "Invalid credentials"});
+        if (!isMatch) return res.status(401).json({ message: "Invalid credentials" });
         const accessToken = jwt.sign({ _id: foundUser._id }, process.env.ACCESS_TOKEN_SECRET, { expiresIn: '1m' });
         const refreshToken = jwt.sign({ _id: foundUser._id }, process.env.REFRESH_TOKEN_SECRET)
         await User.updateOne({ _id: foundUser._id }, { refreshToken: refreshToken });
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
-        res.status(200).json({ message: "Success", accessToken });
+        res.status(200).json({ authData, message: "Success", accessToken });
     } catch (err) {
         res.status(500).json({ error: err.message });
     }

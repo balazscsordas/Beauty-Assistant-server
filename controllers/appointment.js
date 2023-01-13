@@ -26,7 +26,6 @@ export const addNewAppointment = async (req, res) => {
     try {
         const adminId = req._id;
         const appointmentData = req.body.data;
-        console.log(appointmentData);
         const foundService = await Service.findOne({ _id: appointmentData.serviceId });
         const foundClient = await Client.findOne({ _id: appointmentData.clientId });
         const appointment = new Appointment({
@@ -36,6 +35,7 @@ export const addNewAppointment = async (req, res) => {
             serviceName: foundService.name,
             serviceTime: foundService.time,
             date: appointmentData.date,
+            status: appointmentData.status,
             time: appointmentData.time,
             adminId,
             discount: appointmentData.discount,
@@ -50,15 +50,24 @@ export const addNewAppointment = async (req, res) => {
 }
 
 /* MODIFY APPOINTMENT DATA */
-export const modifyAppointmentData = async (req, res) => {
+export const editAppointment = async (req, res) => {
     try {
-        const newAppointmentData = req.body.newAppointmentData;
-        const updatedAppointment = Appointment.updateOne({ _id: newAppointmentData._id }, {
-            clientId: newAppointmentData.clientId,
-            serviceId: newAppointmentData.serviceId,
+        const newAppointmentData = req.body.data;
+        const updatedAppointment = await Appointment.updateOne({ _id: newAppointmentData._id }, {
+            status: newAppointmentData.status,
             date: newAppointmentData.date,
             time: newAppointmentData.time,
+            clientId: newAppointmentData.clientId,
+            clientName: newAppointmentData.clientName,
+            serviceId: newAppointmentData.serviceId,
+            serviceName: newAppointmentData.serviceName,
+            serviceTime: newAppointmentData.serviceTime,
+            discount: newAppointmentData.discount,
+            commentForAdmin: newAppointmentData.commentForAdmin,
+            commentForClient: newAppointmentData.commentForClient
         })
+
+        console.log(updatedAppointment);
         res.status(200).json({ message: "Appointment data has been modified" });
     } catch(err) {
         res.status(500).json({ error: err.message });

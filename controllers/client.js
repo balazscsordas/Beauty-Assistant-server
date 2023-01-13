@@ -48,9 +48,10 @@ export const addOptionNames = async (req, res) => {
 export const addNewClient = async (req, res) => {
     try {
         const clientData = req.body.clientData;
+        const capitalizedClientName = clientData.name.charAt(0).toUpperCase() + string.slice(1);
         const adminId = req._id;
         const client = new Client({
-          name: clientData.name,
+          name: capitalizedClientName,
           age: clientData.age,
           email: clientData.email,
           mobileNumber: clientData.mobileNumber,
