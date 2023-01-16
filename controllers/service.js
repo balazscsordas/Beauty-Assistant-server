@@ -4,6 +4,7 @@ import Service from "../models/Service.js";
 export const getServiceList = async (req, res) => {
     try {
         const adminId = req._id
+        console.log(req.header('laci'));
         const foundServices = await Service.find({ adminId: adminId });
         res.status(200).json({ foundServices });
       }
