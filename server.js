@@ -9,7 +9,6 @@ import authRoutes from "./routes/auth.js";
 import clientRoutes from "./routes/client.js";
 import appointmentRoutes from "./routes/appointment.js";
 import serviceRoutes from "./routes/service.js";
-import credentials from "./middleware/credentials.js";
 import { corsOptions } from "./config/corsOptions.js";
 import verifyJWT from "./middleware/verifyJWT.js";
 
@@ -23,9 +22,6 @@ const app = express();
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-// Handle options credentials check - before CORS!
-// and fetch cookies credentials requirement
-app.use(credentials);
 
 app.use(cors(corsOptions));
 
