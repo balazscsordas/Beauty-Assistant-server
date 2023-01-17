@@ -28,9 +28,10 @@ app.use(express.json());
 app.use(credentials);
 
 app.use(cors(corsOptions));
-app.use(cookieParser());
 
-const saltRounds = 10;
+app.set("trust proxy", 1);
+
+app.use(cookieParser());
 
 /* DATABASE CONNECTION */
 const connectDB = async () => {
