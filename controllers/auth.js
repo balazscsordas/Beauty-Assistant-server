@@ -5,8 +5,8 @@ import User from "../models/User.js";
 /* REGISTER USER */
 export const register = async (req, res) => {
     try {
-        const { firstName, email, password } = req.body.registrationData;
-        const capitalizedFirstName = firstName.charAt(0).toUpperCase() + string.slice(1);
+        const { firstName, email, password } = req.body.data;
+        const capitalizedFirstName = firstName.charAt(0).toUpperCase() + firstName.slice(1);
         const foundUser = await User.findOne({ email: email });
         if(foundUser) return res.status(409).json({ message: "An account is already registered with your email, please log in." });
         const salt = await bcrypt.genSalt();
@@ -20,6 +20,7 @@ export const register = async (req, res) => {
         const savedUser = await newUser.save();
         res.status(201).json({ message: "User has been created" });
     } catch (err) {
+        console.log(err);
         res.status(500).json({ error: err.message });
     }
 }
@@ -27,7 +28,7 @@ export const register = async (req, res) => {
 /* LOGGING IN */
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, password } = req.body.data;
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) return res.status(401).json({ message: "User does not exist" });
         const isMatch = await bcrypt.compare(password, foundUser.password);
@@ -40,7 +41,7 @@ export const login = async (req, res) => {
             firstName: foundUser.firstName,
             accessToken: accessToken,
         }
-        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', maxAge: 24 * 60 * 60 * 1000 });
+        res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         res.status(200).json({ authData, message: "Success" });
     } catch (err) {
         res.status(500).json({ error: err.message });

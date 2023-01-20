@@ -9,6 +9,7 @@ import authRoutes from "./routes/auth.js";
 import clientRoutes from "./routes/client.js";
 import appointmentRoutes from "./routes/appointment.js";
 import serviceRoutes from "./routes/service.js";
+import giftcardRoutes from "./routes/giftcard.js";
 import { corsOptions } from "./config/corsOptions.js";
 import verifyJWT from "./middleware/verifyJWT.js";
 
@@ -53,3 +54,4 @@ app.use(verifyJWT);
 app.use("/client", clientRoutes);
 app.use("/service", serviceRoutes);
 app.use("/appointment", appointmentRoutes);
+app.use("/giftcard", giftcardRoutes);

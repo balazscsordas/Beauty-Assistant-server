@@ -21,27 +21,22 @@ const usersSchema = new mongoose.Schema({
     clientOptionNames: {
         option1Name: {
             type: String,
-            required: true,
             min: 1,
         },
         option2Name: {
             type: String,
-            required: true,
             min: 1,
         },
         option3Name: {
             type: String,
-            required: true,
             min: 1,
         },
         option4Name: {
             type: String,
-            required: true,
             min: 1,
         },
         option5Name: {
             type: String,
-            required: true,
             min: 1,
         },
     },

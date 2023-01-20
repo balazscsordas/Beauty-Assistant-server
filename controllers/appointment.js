@@ -66,8 +66,6 @@ export const editAppointment = async (req, res) => {
             commentForAdmin: newAppointmentData.commentForAdmin,
             commentForClient: newAppointmentData.commentForClient
         })
-
-        console.log(updatedAppointment);
         res.status(200).json({ message: "Appointment data has been modified" });
     } catch(err) {
         res.status(500).json({ error: err.message });

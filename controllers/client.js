@@ -48,10 +48,9 @@ export const addOptionNames = async (req, res) => {
 export const addNewClient = async (req, res) => {
     try {
         const clientData = req.body.clientData;
-        const capitalizedClientName = clientData.name.charAt(0).toUpperCase() + string.slice(1);
         const adminId = req._id;
         const client = new Client({
-          name: capitalizedClientName,
+          name: clientData.name,
           age: clientData.age,
           email: clientData.email,
           mobileNumber: clientData.mobileNumber,
@@ -66,7 +65,7 @@ export const addNewClient = async (req, res) => {
         res.status(201).json({ message: "Client has been added" });
       }
       catch (err) {
-        console.log(err.message);
+        console.log(err);
         res.status(500).json({ error: err.message });
       }
 }
