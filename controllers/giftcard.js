@@ -12,6 +12,20 @@ export const getGiftcardList = async (req, res) => {
     }
 }
 
+/* GET GIFTCARD DETAILS */
+export const getGiftcardDetails = async (req, res) => {
+    try {
+        const adminId = req._id;
+        const giftcardId = req.params.id;
+        const foundGiftcard = await Giftcard.findById(giftcardId);
+        if (foundGiftcard && foundGiftcard.adminId === adminId) return res.status(200).json({ foundGiftcard });
+        res.status(404).json({ message: "Giftcard doesn't exist" });
+      }
+      catch (err) {
+        res.status(500).json({ error: err.message });
+      }
+  }
+
 /* ADD NEW GIFTCARD */
 export const addNewGiftcard = async (req, res) => {
     try {
@@ -19,13 +33,13 @@ export const addNewGiftcard = async (req, res) => {
         const giftcardData = req.body.giftcardData;
         const newGiftcard = new Giftcard({
             adminId,
-            identifier,
-            amount,
-            startDate,
-            endDate,
+            identifier: giftcardData.identifier,
+            amount: giftcardData.amount,
+            startDate: giftcardData.startDate,
+            endDate: giftcardData.endDate,
         })
         const savedGiftcard = await newGiftcard.save();
-        res.status(200).json({ message: 'Giftcard has been saved', savedGiftcard });
+        res.status(201).json({ message: 'Giftcard has been saved', savedGiftcard});
     } catch (err) {
        res.status(500).json({ error: err.message });
        console.log(err);
@@ -38,7 +52,10 @@ export const editGiftcard = async (req, res) => {
         const newGiftcardData = req.body.newGiftcardData;
         const giftcardId = newGiftcardData._id;
         const updatedGiftcard = await Giftcard.updateOne({ _id: giftcardId }, {
-            newGiftcardData
+            identifier: newGiftcardData.identifier,
+            amount: newGiftcardData.amount,
+            startDate: newGiftcardData.startDate,
+            endDate: newGiftcardData.endDate,
         })
         res.status(200).json({ message: 'Giftcard has been modified' });
     } catch (err) {
