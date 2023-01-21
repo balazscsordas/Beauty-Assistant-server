@@ -33,6 +33,7 @@ export const addNewGiftcard = async (req, res) => {
         const giftcardData = req.body.giftcardData;
         const newGiftcard = new Giftcard({
             adminId,
+            status: giftcardData.status,
             identifier: giftcardData.identifier,
             amount: giftcardData.amount,
             startDate: giftcardData.startDate,
@@ -52,6 +53,7 @@ export const editGiftcard = async (req, res) => {
         const newGiftcardData = req.body.newGiftcardData;
         const giftcardId = newGiftcardData._id;
         const updatedGiftcard = await Giftcard.updateOne({ _id: giftcardId }, {
+            status: newGiftcardData.status,
             identifier: newGiftcardData.identifier,
             amount: newGiftcardData.amount,
             startDate: newGiftcardData.startDate,

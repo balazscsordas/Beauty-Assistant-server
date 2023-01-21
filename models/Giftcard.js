@@ -6,6 +6,10 @@ const giftcardSchema = new mongoose.Schema({
         required: true,
         min: 2
     }, 
+    status: {
+        type: String,
+        required: true,
+    }, 
     identifier: {
         type: String,
         required: true,
