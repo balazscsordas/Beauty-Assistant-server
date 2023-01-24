@@ -4,7 +4,6 @@ import Service from "../models/Service.js";
 export const getServiceList = async (req, res) => {
     try {
         const adminId = req._id
-        console.log(req.header('laci'));
         const foundServices = await Service.find({ adminId: adminId });
         res.status(200).json({ foundServices });
       }
@@ -13,13 +12,41 @@ export const getServiceList = async (req, res) => {
       }
 }
 
+/* GET SERVICES CATEGORY LIST */
+export const getCategoryList = async (req, res) => {
+  try {
+      const adminId = req._id
+      let categoryList = ["Új kategória hozzáadása"]
+      const foundServices = await Service.find({ adminId: adminId });
+      foundServices.map(service => {
+        if (!categoryList.includes(service.category)) {
+          categoryList.push(service.category);
+        }
+      })
+      res.status(200).json({ categoryList });
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+}
+
 /* GET SERVICE DETAILS */
 export const getServiceDetails = async (req, res) => {
   try {
       const adminId = req._id;
       const serviceId = req.params.id;
-      const foundService = await Service.findById(serviceId);
-      if (foundService && foundService.adminId === adminId) return res.status(200).json({ foundService });
+      let categoryList = ["Új kategória hozzáadása"]
+      let foundService = "";
+      const foundServices = await Service.find({ adminId: adminId });
+      foundServices.map(service => {
+        if (!categoryList.includes(service.category)) {
+          categoryList.push(service.category);
+        }
+        if (service._id == serviceId) {
+          foundService = service;
+        }
+      })
+      if (foundService && foundService.adminId === adminId) return res.status(200).json({ foundService, categoryList });
       res.status(404).json({ message: "Service doesn't exist" });
     }
     catch (err) {
@@ -54,8 +81,8 @@ export const modifyServiceData = async (req, res) => {
   try {
       const newServiceData = req.body.newServiceData;
       const updatedService = await Service.updateOne({ _id: newServiceData._id }, {
-          name: newServiceData.name,
           category: newServiceData.category,
+          name: newServiceData.name,
           price: newServiceData.price,
           time: newServiceData.time,
           description: newServiceData.description,

@@ -61,13 +61,24 @@ export const refresh = (req, res) => {
 }
 
 /* LOGGING OUT */
-
 export const logout = async (req, res) => {
     try {
         const refreshToken = req.cookies.jwt;
         await User.updateOne({ refreshToken: refreshToken }, {refreshToken: "token" });
         res.setHeader('Set-Cookie', 'jwt=deleted; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT');
         res.status(200).json({ message: "Token has been deleted" });
+    }
+    catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+}
+
+/* GET FIRST NAME */
+export const getFirstName = async (req, res) => {
+    try {
+        const adminId = req._id;
+        const foundFirstName = await User.findOne({ _id: adminId }, "firstName");
+        res.status(200).json({ message: "first name has been found", foundFirstName });
     }
     catch (err) {
         res.status(500).json({ error: err.message });

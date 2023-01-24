@@ -70,7 +70,7 @@ export const editGiftcard = async (req, res) => {
 export const deleteGiftcard = async (req, res) => {
     try {   
         const giftcardId = req.body.giftcardId;
-        const deletedGiftcard = Giftcard.deleteOne({ _id: giftcardId });
+        const deletedGiftcard = await Giftcard.deleteOne({ _id: giftcardId });
         res.status(200).json({ message: 'Giftcard has been deleted' });
     } catch (err) {
         res.status(500).json({ error: err.message });

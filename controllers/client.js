@@ -15,6 +15,19 @@ export const getClientList = async (req, res) => {
       }
 }
 
+/* GET CLIENT OPTION NAMES */
+export const getOptionNames = async (req, res) => {
+  try {
+      const adminId = req._id;
+      const clientOptionNames = await User.findOne({ _id: adminId }, 'clientOptionNames');
+      const clientOptionNamesWithoutId = clientOptionNames.clientOptionNames;
+      res.status(200).json({ clientOptionNamesWithoutId });
+    }
+    catch (err) {
+      res.status(500).json({ error: err.message });
+    }
+}
+
 /* GET CLIENT DETAILS */
 export const getClientDetails = async (req, res) => {
     try {
@@ -77,10 +90,13 @@ export const modifyClientData = async (req, res) => {
         const updatedClient = await Client.updateOne({ _id: newClientData._id }, {
             name: newClientData.name,
             age: newClientData.age,
-            baseInformation: newClientData.baseInformation,
-            skinType: newClientData.skinType,
-            allergies: newClientData.allergies,
-            usedCreams: newClientData.usedCreams
+            email: newClientData.email,
+            mobileNumber: newClientData.mobileNumber,
+            option1Content: newClientData.option1Content,
+            option2Content: newClientData.option2Content,
+            option3Content: newClientData.option3Content,
+            option4Content: newClientData.option4Content,
+            option5Content: newClientData.option5Content,
           });
         res.status(200).json({ message: "Client data has been modified" });
     }
