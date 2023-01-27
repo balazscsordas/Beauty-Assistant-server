@@ -1,17 +1,35 @@
 import Appointment from "../models/Appointment.js";
 import Service from "../models/Service.js";
 import Client from "../models/Client.js";
-import { checkIfItsOnThisWeek } from "./utils.js";
+import { checkIfItsOnThisWeek, getCurrentWeekDates } from "./utils.js";
+
+/* GET FIRST FETCH APPOINTMENT LIST */
+export const getFirstFetchAppointmentList = async (req, res) => {
+    try {
+        const currentWeek = getCurrentWeekDates();
+        const adminId = req._id;
+        const foundAppointments = await Appointment.find({ adminId: adminId })
+        const firstFetchAppointments = [];
+        foundAppointments.map(appointment => {
+            if (checkIfItsOnThisWeek(appointment.date, currentWeek) === true) {
+                firstFetchAppointments.push(appointment);
+            }
+        })
+        res.status(200).json({ currentWeek, firstFetchAppointments });
+    } catch(err) {
+        res.status(500).json({ error: err.message });
+    }
+}
 
 /* GET APPOINTMENT LIST */
 export const getAppointmentList = async (req, res) => {
     try {
-        const currentWeek = req.query.currentWeek;
+        const week = req.query.week;
         const adminId = req._id;
         const foundAppointments = await Appointment.find({ adminId: adminId })
         const currentWeekAppointments = [];
         foundAppointments.map(appointment => {
-            if (checkIfItsOnThisWeek(appointment.date, currentWeek) === true) {
+            if (checkIfItsOnThisWeek(appointment.date, week) === true) {
                 currentWeekAppointments.push(appointment);
             }
         })
