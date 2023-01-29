@@ -3,6 +3,6 @@ export const corsOptions = {
     allowedHeaders: ['Content-Type', 'Authorization'],
     origin:
         process.env.NODE_ENV === "production"
-            ? "https://beautyassistant.netlify.app"
+            ? "https://beautyassistant.netlify.app" || 'https://beautyassistant.hu'
             : "http://localhost:3000"
 }
