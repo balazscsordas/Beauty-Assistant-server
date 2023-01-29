@@ -28,7 +28,7 @@ export const register = async (req, res) => {
 /* LOGGING IN */
 export const login = async (req, res) => {
     try {
-        const { email, password } = req.body.data;
+        const { email, password } = req.body;
         const foundUser = await User.findOne({ email: email });
         if (!foundUser) return res.status(401).json({ message: "User does not exist" });
         const isMatch = await bcrypt.compare(password, foundUser.password);
@@ -41,6 +41,7 @@ export const login = async (req, res) => {
             firstName: foundUser.firstName,
             accessToken: accessToken,
         }
+        res.cookie('hehe', 'hehee');
         res.cookie('jwt', refreshToken, { httpOnly: true, sameSite: 'None', secure: true, maxAge: 24 * 60 * 60 * 1000 });
         res.status(200).json({ authData, message: "Success" });
     } catch (err) {
