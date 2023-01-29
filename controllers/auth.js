@@ -41,7 +41,7 @@ export const login = async (req, res) => {
             firstName: foundUser.firstName,
             accessToken: accessToken,
         }
-        res.cookie('jwt', refreshToken);
+        res.cookie('jwt', refreshToken, { sameSite: 'None', secure: true });
         res.status(200).json({ authData, message: "Success" });
     } catch (err) {
         res.status(500).json({ error: err.message });
