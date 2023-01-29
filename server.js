@@ -20,6 +20,9 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 const app = express();
+
+app.set("trust proxy", 1);
+
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -27,7 +30,6 @@ app.use(express.json());
 
 app.use(cors(corsOptions));
 
-app.set("trust proxy", 1);
 
 
 /* DATABASE CONNECTION */
