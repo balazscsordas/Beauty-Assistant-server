@@ -1,14 +1,8 @@
-import allowedOrigins from "./allowedOrigins.js";
-
-const corsOptions = {
-    origin: (origin, callback) => {
-        if (allowedOrigins.indexOf(origin) !== -1) {
-            callback(null, true)
-        } else {
-            callback(new Error('Not allowed by CORS'));
-        }
-    },
-    optionsSuccessStatus: 200
+export const corsOptions = {
+    credentials: true,
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    origin:
+        process.env.NODE_ENV === "production"
+            ? "https://beautyassistant.netlify.app"
+            : "http://localhost:3000"
 }
-
-export default corsOptions;

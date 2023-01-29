@@ -10,9 +10,8 @@ import clientRoutes from "./routes/client.js";
 import appointmentRoutes from "./routes/appointment.js";
 import serviceRoutes from "./routes/service.js";
 import giftcardRoutes from "./routes/giftcard.js";
-import corsOptions from "./config/corsOptions.js";
+import { corsOptions } from "./config/corsOptions.js";
 import verifyJWT from "./middleware/verifyJWT.js";
-import credentials from "./middleware/credentials.js";
 
 /* CONFIGURATIONS */
 
@@ -21,14 +20,11 @@ const __dirname = path.dirname(__filename);
 
 dotenv.config();
 const app = express();
-
 app.set("trust proxy", 1);
-
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 
-app.use(credentials)
 
 app.use(cors(corsOptions));
 
