@@ -1,5 +1,6 @@
 export const corsOptions = {
     credentials: true,
+    exposedHeaders: ["set-cookie"],
     allowedHeaders: ['Content-Type', 'Authorization'],
     origin:
         process.env.NODE_ENV === "production"
