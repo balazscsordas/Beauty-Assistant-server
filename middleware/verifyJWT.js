@@ -4,8 +4,8 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const verifyJWT = (req, res, next) => {
-    console.log('jwt token ' + req.cookies.jwt);
-    const jwtToken = req.cookies.jwt;
+    const cookie = req.headers['cookie'];
+    const jwtToken = cookie.split('=')[1];
     jwt.verify(
         jwtToken,
         process.env.REFRESH_TOKEN_SECRET,
@@ -16,7 +16,6 @@ const verifyJWT = (req, res, next) => {
 
         }
     );
-
     next();
 }
 
