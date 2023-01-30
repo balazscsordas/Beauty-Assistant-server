@@ -12,8 +12,6 @@ const verifyJWT = (req, res, next) => {
         (err, decoded) => {
             if (err) return res.sendStatus(403); //invalid token
             req._id = decoded._id;
-            console.log('id: ' + req._id)
-
         }
     );
     next();
