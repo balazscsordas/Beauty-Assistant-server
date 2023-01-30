@@ -4,8 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const verifyJWT = (req, res, next) => {
-    console.log('első' + req.cookies);
-    console.log('masodik' + req.cookie.get('jwt')?.value);
+    console.log('első' + req);
     const jwtToken = req.cookies.jwt;
     if(!jwtToken) {
         res.sendStatus(403);
