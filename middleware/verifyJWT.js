@@ -6,9 +6,6 @@ dotenv.config();
 const verifyJWT = (req, res, next) => {
     console.log('jwt token ' + req.cookies.jwt);
     const jwtToken = req.cookies.jwt;
-    if(!jwtToken) {
-        res.sendStatus(403);
-    }
     jwt.verify(
         jwtToken,
         process.env.REFRESH_TOKEN_SECRET,
