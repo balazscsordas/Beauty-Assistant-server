@@ -6,6 +6,8 @@ import { checkIfItsOnThisWeek, getCurrentWeekDates } from "./utils.js";
 /* GET FIRST FETCH APPOINTMENT LIST */
 export const getFirstFetchAppointmentList = async (req, res) => {
     try {
+        console.log(req._id);
+
         const currentWeek = getCurrentWeekDates();
         const adminId = req._id;
         const foundAppointments = await Appointment.find({ adminId: adminId })
@@ -24,6 +26,8 @@ export const getFirstFetchAppointmentList = async (req, res) => {
 /* GET APPOINTMENT LIST */
 export const getAppointmentList = async (req, res) => {
     try {
+        console.log(req._id);
+
         const week = req.query.week;
         const adminId = req._id;
         const foundAppointments = await Appointment.find({ adminId: adminId })
