@@ -5,7 +5,7 @@ dotenv.config();
 
 const verifyJWT = (req, res, next) => {
     console.log('első' + req.cookies);
-    console.log('masodik' + req.cookies.get('jwt')?.value);
+    console.log('masodik' + req.cookie.get('jwt')?.value);
     const jwtToken = req.cookies.jwt;
     if(!jwtToken) {
         res.sendStatus(403);
