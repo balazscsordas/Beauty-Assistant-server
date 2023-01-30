@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 dotenv.config();
 
 const verifyJWT = (req, res, next) => {
-    console.log('első' + req.cookies.jwt);
+    console.log('jwt token ' + req.cookies.jwt);
     const jwtToken = req.cookies.jwt;
     if(!jwtToken) {
         res.sendStatus(403);
@@ -15,8 +15,11 @@ const verifyJWT = (req, res, next) => {
         (err, decoded) => {
             if (err) return res.sendStatus(403); //invalid token
             req._id = decoded._id;
+            console.log('id: ' + req._id)
+
         }
     );
+
     next();
 }
 
