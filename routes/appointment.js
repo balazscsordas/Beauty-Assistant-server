@@ -4,7 +4,7 @@ import { addNewAppointment, deleteAppointment, getAppointmentList, editAppointme
 const router = express.Router();
 
 router.get("/get-first-fetch-appointment-list", getFirstFetchAppointmentList);
-router.get("/get-appointment-list", getAppointmentList);
+router.post("/get-appointment-list", getAppointmentList);
 router.post("/add-new-appointment", addNewAppointment);
 router.put("/edit-appointment", editAppointment);
 router.delete("/delete-appointment", deleteAppointment);

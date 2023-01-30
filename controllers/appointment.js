@@ -28,7 +28,7 @@ export const getAppointmentList = async (req, res) => {
     try {
         console.log(req._id);
 
-        const week = req.query.week;
+        const week = req.body.week;
         const adminId = req._id;
         const foundAppointments = await Appointment.find({ adminId: adminId })
         const currentWeekAppointments = [];
