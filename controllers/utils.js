@@ -126,3 +126,162 @@ export const getCurrentWeekDates = () => {
             return weekdays;
     }
 }
+
+export const checkIfItsOnThisMonth = (date) => {
+    const currentMonth = new Date().getMonth();
+    if (date.getMonth() === currentMonth) {
+        return true;
+    }
+    return false;
+}
+
+export const checkIfItsOnToday = (date) => {
+    const currentDay = new Date().getDate();
+    if (date.getDate() === currentDay) {
+        return true;
+    }
+    return false;
+}
+
+export const countStatsByPeriod = (appointmentArray) => {
+    let failedAppointments = 0;
+    let estimatedIncome = 0;
+    let clientArray = [];
+    appointmentArray.map((appointment) => {
+        appointment.status === 'failure' && failedAppointments++;
+        if (appointment.status === 'pending' || appointment.status === 'success') {
+            estimatedIncome = estimatedIncome + appointment.servicePrice;
+        }
+        if (!clientArray.includes(appointment.clientId)) {
+            clientArray.push(appointment.clientId);
+        }
+    })
+    const allAppointments = appointmentArray.length;
+    const allClients = clientArray.length;
+
+    return {
+        allAppointments,
+        failedAppointments,
+        estimatedIncome,
+        allClients,
+    }
+}
+
+export const getDailyIncomePerWeek = (appointmentArray) => {
+    let mondayIncome = 0;
+    let tuesdayIncome = 0;
+    let wednesdayIncome = 0;
+    let thurstdayIncome = 0;
+    let fridayIncome = 0;
+    let saturdayIncome = 0;
+    let sundayIncome = 0;
+    appointmentArray.map((appointment) => {
+        switch (appointment.date.getDay()) {
+            case 0:
+                sundayIncome = sundayIncome + appointment.servicePrice;
+                break;
+            case 1:
+                mondayIncome = mondayIncome + appointment.servicePrice;
+                break;
+            case 2:
+                tuesdayIncome = tuesdayIncome + appointment.servicePrice;
+                break;
+            case 3:
+                wednesdayIncome = wednesdayIncome + appointment.servicePrice;
+                break;
+            case 4:
+                thurstdayIncome = thurstdayIncome + appointment.servicePrice;
+                break;
+            case 5:
+                fridayIncome = fridayIncome + appointment.servicePrice;
+                break;
+            case 6:
+                saturdayIncome = saturdayIncome + appointment.servicePrice;
+                break;
+            default:
+                break;
+        }
+    })
+    return [
+        mondayIncome,
+        tuesdayIncome,
+        wednesdayIncome,
+        thurstdayIncome,
+        fridayIncome,
+        saturdayIncome,
+        sundayIncome,
+    ]
+}
+
+export const getMonthlyIncomePerYear = (appointmentArray) => {
+    let januaryIncome = 0;
+    let februaryIncome = 0;
+    let marchIncome = 0;
+    let aprilIncome = 0;
+    let mayIncome = 0;
+    let juneIncome = 0;
+    let julyIncome = 0;
+    let augIncome = 0;
+    let septIncome = 0;
+    let oktIncome = 0;
+    let novIncome = 0;
+    let decIncome = 0;
+    appointmentArray.map((appointment) => {
+        if (appointment.status === 'pending' || appointment.status === 'success') {
+            switch (appointment.date.getMonth()) {
+                case 0:
+                    januaryIncome = januaryIncome + appointment.servicePrice;
+                    break;
+                case 1:
+                    februaryIncome = februaryIncome + appointment.servicePrice;
+                    break;
+                case 2:
+                    marchIncome = marchIncome + appointment.servicePrice;
+                    break;
+                case 3:
+                    aprilIncome = aprilIncome + appointment.servicePrice;
+                    break;
+                case 4:
+                    mayIncome = mayIncome + appointment.servicePrice;
+                    break;
+                case 5:
+                    juneIncome = juneIncome + appointment.servicePrice;
+                    break;
+                case 6:
+                    julyIncome = julyIncome + appointment.servicePrice;
+                    break;
+                case 7:
+                    augIncome = augIncome + appointment.servicePrice;
+                    break;
+                case 8:
+                    septIncome = septIncome + appointment.servicePrice;
+                    break;
+                case 9:
+                    oktIncome = oktIncome + appointment.servicePrice;
+                    break;
+                case 10:
+                    novIncome = novIncome + appointment.servicePrice;
+                    break;
+                case 11:
+                    decIncome = decIncome + appointment.servicePrice;
+                    break;
+                default:
+                    break;
+            }
+        }
+    })
+    return [
+        januaryIncome,
+        februaryIncome,
+        marchIncome,
+        aprilIncome,
+        mayIncome,
+        juneIncome,
+        julyIncome,
+        augIncome,
+        septIncome,
+        oktIncome,
+        novIncome,
+        decIncome,
+    ]
+}

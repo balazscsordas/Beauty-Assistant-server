@@ -3,8 +3,6 @@ import Service from "../models/Service.js";
 /* GET SERVICE LIST */
 export const getServiceList = async (req, res) => {
     try {
-        console.log(req._id);
-
         const adminId = req._id
         const foundServices = await Service.find({ adminId: adminId });
         res.status(200).json({ foundServices });
