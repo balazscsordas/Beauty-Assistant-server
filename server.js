@@ -7,6 +7,8 @@ import path from "path";
 import { fileURLToPath } from "url";
 import authRoutes from "./routes/auth.js";
 import clientRoutes from "./routes/client.js";
+import settingsRoutes from "./routes/settings.js";
+import bookAppointmentRoutes from "./routes/bookAppointment.js";
 import appointmentRoutes from "./routes/appointment.js";
 import serviceRoutes from "./routes/service.js";
 import giftcardRoutes from "./routes/giftcard.js";
@@ -29,8 +31,6 @@ app.use(express.json());
 
 app.use(cors(corsOptions));
 
-
-
 /* DATABASE CONNECTION */
 const connectDB = async () => {
   try {
@@ -50,9 +50,11 @@ app.listen(process.env.PORT, () => {
 
 /* ROUTES */
 app.use("/auth", authRoutes);
+app.use("/book-appointment", bookAppointmentRoutes);
 
 app.use(verifyJWT);
 app.use("/client", clientRoutes);
+app.use("/settings", settingsRoutes);
 app.use("/service", serviceRoutes);
 app.use("/appointment", appointmentRoutes);
 app.use("/giftcard", giftcardRoutes);
