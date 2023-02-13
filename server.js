@@ -41,10 +41,10 @@ const connectDB = async () => {
     console.log("Failed to connect to MongoDB", err);
   }
 }
-connectDB();
-
-app.listen(process.env.PORT, () => {
-  console.log("Server is running on port " + process.env.PORT);
+connectDB().then(() => {
+  app.listen(process.env.PORT, () => {
+    console.log("Server is running on port " + process.env.PORT);
+  })
 })
 
 
