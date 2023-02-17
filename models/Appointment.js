@@ -3,8 +3,6 @@ import mongoose from "mongoose";
 const appointmentSchema = new mongoose.Schema({
     clientId: {
         type: String,
-        required: true,
-        min: 2
     },
     clientName: {
         type: String,

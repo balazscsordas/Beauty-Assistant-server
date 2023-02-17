@@ -21,7 +21,7 @@ export const checkIfItsOnThisWeek = (appointmentDate, currentWeek) => {
     }
 }
 
-const dateToString = (date) => {
+export const dateToString = (date) => {
     const year = new Date(date).getUTCFullYear();
     const month = new Date(date).getUTCMonth();
     const day = new Date(date).getUTCDate();
@@ -284,4 +284,77 @@ export const getMonthlyIncomePerYear = (appointmentArray) => {
         novIncome,
         decIncome,
     ]
+}
+
+export const getNamedMonth = (date, lang) => {
+    const months = ['Január', 'Február', 'Március', 'Április', 'Május', 'Június', 'Július', 'Augusztus', 'Szeptember', 'Október', 'November', 'December'];
+    const monthsEng = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    const month = new Date(date).getMonth();
+    if (lang === 'hun') {
+        return months[month];
+    } 
+    if (lang === 'eng') {
+        return monthsEng[month]
+    }
+}
+
+export const getNamedDay = (date, lang) => {
+    switch (new Date(date).getDay()) {
+        case 0:
+            if (lang === 'hun') {
+                return 'Vasárnap';
+            } else {
+                return 'Sunday'
+            }
+        case 1:
+            if (lang === 'hun') {
+                return 'Hétfő';
+            } else {
+                return 'Monday'
+            }
+        case 2:
+            if (lang === 'hun') {
+                return 'Kedd';
+            } else {
+                return 'Tuesday'
+            }
+        case 3:
+            if (lang === 'hun') {
+                return 'Szerda';
+            } else {
+                return 'Wednesday'
+            }
+        case 4:
+            if (lang === 'hun') {
+                return 'Csütörtök';
+            } else {
+                return 'Thurstday'
+            }
+        case 5:
+            if (lang === 'hun') {
+                return 'Péntek';
+            } else {
+                return 'Friday'
+            }
+        case 6:
+            if (lang === 'hun') {
+                return 'Szombat';
+            } else {
+                return 'Saturday'
+            }
+    
+        default:
+            return 'Error with getNamedDay function'
+    }
+}
+
+export const getNumberedDay = (date) => {
+    const days = ['01', '02', '03', '04', '05', '06', '07', '08', '09', '10', '11', '12'];
+    const day = new Date(date).getDate();
+    if (day < 10) {
+        return days[day - 1];
+    }
+    else {
+        return day.toString();
+    }
 }

@@ -1,8 +1,8 @@
 import Salon from "../models/Salon.js";
 import Service from "../models/Service.js";
 import Appointment from "../models/Appointment.js";
-import { checkIfItsOnThisWeek, getCurrentWeekDates } from "./utils.js";
-import { notifyAdminAboutNewAppointmentRequest, notifyClientAboutAppointmentRequest } from "./email.js";
+import { checkIfItsOnThisWeek, getCurrentWeekDates, getNamedDay, getNamedMonth, getNumberedDay } from "./utils.js";
+import { notifyAdminAboutNewAppointmentRequest } from "./email.js";
 
 /* GET SALON LIST */
 export const getSalonList = async (req, res) => {
@@ -51,10 +51,36 @@ export const postBookAppointmentData = async (req, res) => {
   try {
       const bookAppointmentData = req.body.data;
       const lang = req.body.lang;
-      /* const foundAppointments = await Appointment.find({ adminId: adminId }, 'serviceTime date time') */
-      
+      const emailData = {
+        clientName: bookAppointmentData.clientName,
+        clientEmail: bookAppointmentData.clientEmail,
+        serviceName: bookAppointmentData.serviceName,
+        time: new Date(bookAppointmentData.date).getFullYear() 
+              + '. ' + getNamedMonth(bookAppointmentData.date, lang) 
+              + ' ' + getNumberedDay(bookAppointmentData.date) 
+              + '. ' + getNamedDay(bookAppointmentData.date, lang)
+              + ' ' + bookAppointmentData.time
+      }
+      notifyAdminAboutNewAppointmentRequest('csordasbalu96@gmail.com', emailData, lang);
+      const appointment = new Appointment({
+        clientId: "",
+        clientName: bookAppointmentData.clientName,
+        serviceId: bookAppointmentData.serviceId,
+        serviceName: bookAppointmentData.serviceName,
+        serviceTime: bookAppointmentData.serviceLength,
+        servicePrice: bookAppointmentData.servicePrice,
+        date: bookAppointmentData.date,
+        status: "pending",
+        time: bookAppointmentData.time,
+        adminId: bookAppointmentData.adminId,
+        discount: "",
+        commentForClient: "",
+        commentForAdmin: "",
+    })
+      const savedAppointment = await appointment.save();
       res.status(200).json({ message: "Emails have been sent" });
   } catch(err) {
+    console.log(err);
       res.status(500).json({ error: err.message });
   }
 }
